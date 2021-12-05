@@ -1,0 +1,13 @@
+# https://www.postgresql.org/ftp/odbc/versions/msi/
+
+
+Start-Process .\installer.exe /S -NoNewWindow -Wait -PassThru
+
+
+Start-Process -FilePath "D:\Software\app.exe /S /NoPostReboot _?=D:\Software\app.exe" -NoNewWindow -Wait -PassThru $process.ExitCode
+
+# Microsoft ODBC Hive Driver
+# https://www.microsoft.com/en-us/download/details.aspx?id=40886
+
+# Microsoft ODBC SparkDriver
+https://www.microsoft.com/en-us/download/details.aspx?id=49883
