@@ -1,3 +1,5 @@
+[![Foo](https://www.gochameleons.com/wp-content/uploads/2021/11/logo_200x99.png)](https://www.gochameleons.com/)
+
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
 
 # Docker multi-container environment with Hadoop, Spark and Hive
