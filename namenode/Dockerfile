@@ -12,5 +12,10 @@ ADD run.sh /run.sh
 RUN chmod a+x /run.sh
 
 EXPOSE 9870
+ADD test.sh /test.sh
+RUN chmod a+x /test.sh
 
 CMD ["/run.sh"]
+
+CMD ["/run.sh"]
+

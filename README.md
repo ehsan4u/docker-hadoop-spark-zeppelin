@@ -44,7 +44,8 @@ Go to the bash shell on the namenode with that same Container ID of the namenode
 ```
   docker exec -it namenode bash
 ```
-
+the input device is not a TTY.  If you are using mintty, try prefixing the command with 'winpty'
+# open the powershell as administrator
 
 Create a HDFS directory /data//openbeer/breweries.
 
@@ -215,6 +216,12 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 location '/data/openbeer/breweries';
+
+CREATE EXTERNAL TABLE openbeer.breweries_orc
+AS Select NUM ,NAME ,CITY ,STATE ,ID from openbeer.breweries
+STORED AS ORC
+location '/data/openbeer/orc';
+
 ```
 
 And have a little select statement going.
@@ -266,3 +273,81 @@ The available configurations are:
 * /etc/hadoop/mapred-site.xml  MAPRED_CONF
 
 If you need to extend some other configuration file, refer to base/entrypoint.sh bash script.
+
+# Zeppelin
+
+```
+  docker exec -it zeppelin bash
+
+  /spark/bin/pyspark --master spark://spark-master:7077
+```
+docker exec --user="root" -it zeppelin /bin/bash
+Error response from daemon: Container 76ab6289c60b4af65d228b7f4824379f24f55aca1e6584015980edda01e52e0d is not running
+
+docker run -t -d --name zeppelin apache/zeppelin:0.10.0 76ab6289c60b
+
+docker ps -a
+# inspect network
+docker network inspect bridge
+
+# using spark on windows machine - https://medium.com/@thiagolcmelo/submitting-a-python-job-to-apache-spark-on-docker-b2bd19593a06
+# Downloading the spark https://www.apache.org/dyn/closer.lua/spark/spark-3.0.0/spark-3.0.0-bin-hadoop3.2.tgz
+
+./spark/bin/spark-submit \
+                   --master spark://172.20.0.2:7077 \
+                   spark/examples/src/main/python/pi.py 1000
+./spark/bin/spark-submit --master spark://1098a5d1fdf9:7077 /Projects/Python/spark/lib.py 		
+
+
+export PYSPARK_PYTHON=/c/Anaconda3/python
+./spark/bin/pyspark --master spark://1098a5d1fdf9:7077	   
+
+
+# Installing python 
+
+PYTHON_VER="3.6.13"
+
+apt-get update -qq && \
+apt-get upgrade -y  > /dev/null 2>&1 && \
+
+apt-get install wget gcc make zlib1g-dev -y -qq > /dev/null 2>&1 && \
+
+# Install python/pip
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
+
+// Determine Docker container name and get shell access to it
+$ docker ps
+$ docker exec -it <container_name> sh
+
+// Update your current package list
+$ apk update
+
+// Install curl 
+$ apk add curl
+$ curl --version
+
+// Install wget
+$ apk add wget
+$ wget --version
+
+// Install vim 
+$ apk add vim
+$ vi --version
+
+// Install nano
+$ apk add nano
+$ nano --version
+
+// install bash and switch current shell to bash
+$ apk add bash
+$ bash --version
+$ bash
+
+// Add any other package
+$ apk add <package_name>
+
+// Search more packages
+$ apk search -v 'node'

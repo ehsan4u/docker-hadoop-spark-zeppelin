@@ -2,6 +2,7 @@ version: "3"
 
 services:
   namenode:
+    #force_update: true
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: namenode
     restart: always
@@ -36,6 +37,8 @@ services:
     restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    ports:
+      - "8088:8088"
     env_file:
       - ./hadoop.env
 
@@ -102,6 +105,8 @@ services:
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
       - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
 
   hive-metastore:
     image: bde2020/hive:2.3.2-postgresql-metastore
